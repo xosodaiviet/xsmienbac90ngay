@@ -1,0 +1,34 @@
+Code lấy bài viết mặc định
+<!-- Get post mặt định -->
+<?php if (have_posts()) : ?>
+<?php while (have_posts()) : the_post(); ?>
+ 
+<?php endwhile; else : ?>
+<p>Không có</p>
+<?php endif; ?>
+<!-- Get post mặt định -->
+Đoạn code đặt trong index sẽ lấy list bài viết mới nhất, Đặt trong category sẽ lấy danh sách bài viết của category đó, đặt trong single sẽ lấy nội dung của bài đó!.
+2. Code lấy 10 bài viết mới nhất theo category.
+<!-- Get post News Query -->
+<?php $getposts = new WP_query(); $getposts->query('post_status=publish&showposts=10&post_type=post&cat=1'); ?>
+<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+	
+<?php endwhile; wp_reset_postdata(); ?>
+<!-- Get post News Query -->
+showposts=10 sẽ lấy 10 bài viết mới nhất
+cat=1 chỉ lấy các bài viết có cat_id bằng 1
+3. Code lấy danh sách chuyên mục
+<!-- Get category -->
+<?php $args = array( 
+    'hide_empty' => 0,
+    'taxonomy' => 'category',
+    'orderby' => id,
+    ); 
+    $cates = get_categories( $args ); 
+    foreach ( $cates as $cate ) {  ?>
+		<li>
+			<a href="<?php echo get_term_link($cate->slug, 'category'); ?>"><?php echo $cate->name ?></a>
+		</li>
+<?php } ?>
+<!-- Get category -->
